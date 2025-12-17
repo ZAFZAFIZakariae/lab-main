@@ -110,7 +110,8 @@ function buildOpFromEntry(
 ): Operation | null {
   if (!entry) return null;
 
-  const ts = cfg.clock.tick();
+  cfg.clock.observe(entry.ts);
+  const ts = entry.ts;
 
   if (entry.isTombstone) {
     return {
