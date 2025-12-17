@@ -23,6 +23,7 @@ export async function connectToNats(url: string): Promise<NatsConnection> {
 export interface KvEntry {
   value: Uint8Array | null;
   isTombstone: boolean;
+  ts: number;
 }
 
 export interface KvLike {
@@ -77,6 +78,7 @@ export async function createKvBucket(
         return {
           value: isTombstone ? null : msg.data,
           isTombstone,
+          ts: msg.time.getTime(),
         };
       } catch {
         // If no message exists for that subject, just return null
